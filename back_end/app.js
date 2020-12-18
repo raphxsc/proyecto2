@@ -22,7 +22,7 @@ app.use(express.json());
 
 app.post('/auth/signup', createUser);
 
-app.post('/user/add',checkIfAuthenticated, function (req, res) {
+app.post('/user/add', function (req, res) {
 
   var data =req.body.usuario ;
 
@@ -43,7 +43,7 @@ app.post('/user/add',checkIfAuthenticated, function (req, res) {
 
 });
 
-app.get('/user/list',checkIfAuthenticated, function (req, res) {
+app.get('/user/list', function (req, res) {
   MongoClient.connect(url, function(err, db) {
     if (err) {
       res.json({result:"ERROR"});
