@@ -4,8 +4,11 @@ var multer = require('multer');
 const fs = require("fs");
 var mongo = require('mongodb');
 var MongoClient = require('mongodb').MongoClient;
-var url = "mongodb://localhost:27017/";
 
+const {createUser} = require('./crear-usuario');
+const {checkIfAuthenticated} =require("./auth-middleware");
+
+var url = "mongodb://localhost:27017/";
 app.use((req, res, next) => {
     res.header('Access-Control-Allow-Origin', '*');
     res.header('Access-Control-Allow-Headers', 'Authorization, X-API-KEY, Origin, X-Requested-With, Content-Type, Accept, Access-Control-Allow-Request-Method');
@@ -16,7 +19,10 @@ app.use((req, res, next) => {
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 
-app.post('/user/add', function (req, res) {
+
+app.post('/auth/signup', createUser);
+
+app.post('/user/add',checkIfAuthenticated, function (req, res) {
 
   var data =req.body.usuario ;
 
@@ -37,7 +43,7 @@ app.post('/user/add', function (req, res) {
 
 });
 
-app.get('/user/list', function (req, res) {
+app.get('/user/list',checkIfAuthenticated, function (req, res) {
   MongoClient.connect(url, function(err, db) {
     if (err) {
       res.json({result:"ERROR"});
@@ -56,7 +62,7 @@ app.get('/user/list', function (req, res) {
 });
 
 
-app.post('/user/delete', function (req, res) {
+app.post('/user/delete',checkIfAuthenticated, function (req, res) {
 
     let id  = req.body.id;
 
@@ -76,7 +82,7 @@ app.post('/user/delete', function (req, res) {
 
 });
 
-app.post('/user/update', function (req, res) {
+app.post('/user/update', checkIfAuthenticated,function (req, res) {
 
     let data  = req.body.usuario;
     let id = data.id;
