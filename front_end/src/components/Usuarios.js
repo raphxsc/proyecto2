@@ -151,7 +151,7 @@ export const Usuarios = () => {
         const userService = new UsuarioService();
 
         await selectedProducts.forEach((item, i) => {
-            userService.eliminarUsuario({id:item._id});
+            userService.eliminarUsuario({id:item._id,doc:item.id});
         });
 
 
@@ -312,7 +312,7 @@ export const Usuarios = () => {
                     <DataTable ref={dt} value={products} selection={selectedProducts} onSelectionChange={(e) => setSelectedProducts(e.value)}
                         dataKey="id" paginator rows={10} rowsPerPageOptions={[5, 10, 25]} className="datatable-responsive"
                         paginatorTemplate="FirstPageLink PrevPageLink PageLinks NextPageLink LastPageLink CurrentPageReport RowsPerPageDropdown"
-                        currentPageReportTemplate="Showing {first} to {last} of {totalRecords} usuarios"
+                        currentPageReportTemplate="Mostrando registro {first} a {last} de {totalRecords} usuarios"
                         globalFilter={globalFilter} emptyMessage="No products found." header={header}>
                         <Column selectionMode="multiple" headerStyle={{ width: '3rem' }}></Column>
                         <Column field="nombre" header="Nombre" sortable></Column>

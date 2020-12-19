@@ -5,10 +5,9 @@ const fs = require("fs");
 var mongo = require('mongodb');
 var MongoClient = require('mongodb').MongoClient;
 var ObjectId = require('mongodb').ObjectId;
-
 const {createUser} = require('./usuario-service');
-
 const {checkIfAuthenticated} =require("./auth-middleware");
+const {agregarUsuario,eliminarUsuario} = require('./cloud-firestore-mirror');
 
 var url = "mongodb://localhost:27017/";
 app.use((req, res, next) => {
@@ -35,6 +34,7 @@ app.post('/user/add', function (req, res) {
     }
 
     var dbo = db.db("base_entrevista");
+    agregarUsuario(data); // haciendo copia en firestore
     dbo.collection("usuarios").insertOne(data, function(err, result) {
       if (err) throw err;
 
@@ -96,6 +96,7 @@ app.post('/user/delete',checkIfAuthenticated, function (req, res) {
       }
       var dbo = db.db("base_entrevista");
       var usuario = { _id: id};
+      eliminarUsuario(req.body.doc);
       dbo.collection("usuarios").deleteOne(usuario, function(err, obj) {
         if (err) res.json({result:"ERROR"});
         else {
