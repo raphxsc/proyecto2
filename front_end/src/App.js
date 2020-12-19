@@ -19,6 +19,9 @@ class App extends React.Component {
 
 
     render() {
+      const  Main = ()=>{
+        return (<AppMain history={history}/>);
+      } ;
 
         return (
 
@@ -26,7 +29,7 @@ class App extends React.Component {
                 <Router basename="/" history={history}>
                     <Switch>
 
-                        <PrivateRoute path="/" exact component={AppMain} />
+                        <PrivateRoute path="/" exact component={Main} />
                         <Route path="/authentication/login" exact component={Login} />
 
                     </Switch>

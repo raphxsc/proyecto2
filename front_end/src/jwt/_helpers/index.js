@@ -1,4 +1,4 @@
 export * from './auth-header';
-export * from './fake-backend';
+export * from './connection-backend';
 export * from './handle-response';
 export * from './history';

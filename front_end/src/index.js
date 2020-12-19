@@ -5,8 +5,8 @@ import App from './App';
 
 import { HashRouter } from 'react-router-dom'
 import ScrollToTop from './ScrollToTop';
-import { configureFakeBackend } from './jwt/_helpers';
-configureFakeBackend(); // temporal para pruebas
+import { configureMiddleware } from './jwt/_helpers';
+configureMiddleware(); 
 
 ReactDOM.render(
     <HashRouter>

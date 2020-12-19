@@ -13,6 +13,8 @@ import { InputNumber } from 'primereact/inputnumber';
 import { Dialog } from 'primereact/dialog';
 import { InputText } from 'primereact/inputtext';
 import { ProductService } from '../service/ProductService';
+import {UsuarioService} from '../service/UsuarioService';
+
 
 export const Usuarios = () => {
 
@@ -40,8 +42,8 @@ export const Usuarios = () => {
     const dt = useRef(null);
 
     useEffect(() => {
-        const productService = new ProductService();
-        productService.getProducts().then(data => setProducts(data));
+        const userService = new UsuarioService();
+        userService.getUsuarios().then(data => setProducts(data));
     }, []);
 
     const formatCurrency = (value) => {
@@ -144,7 +146,7 @@ export const Usuarios = () => {
         setProducts(_products);
         setDeleteProductsDialog(false);
         setSelectedProducts(null);
-        toast.current.show({ severity: 'success', summary: 'Successful', detail: 'Products Deleted', life: 3000 });
+        toast.current.show({ severity: 'success', summary: 'Successful', detail: 'usuarios eliminados', life: 3000 });
     }
 
     const onCategoryChange = (e) => {
@@ -298,7 +300,7 @@ export const Usuarios = () => {
                     <DataTable ref={dt} value={products} selection={selectedProducts} onSelectionChange={(e) => setSelectedProducts(e.value)}
                         dataKey="id" paginator rows={10} rowsPerPageOptions={[5, 10, 25]} className="datatable-responsive"
                         paginatorTemplate="FirstPageLink PrevPageLink PageLinks NextPageLink LastPageLink CurrentPageReport RowsPerPageDropdown"
-                        currentPageReportTemplate="Showing {first} to {last} of {totalRecords} products"
+                        currentPageReportTemplate="Showing {first} to {last} of {totalRecords} usuarios"
                         globalFilter={globalFilter} emptyMessage="No products found." header={header}>
                         <Column selectionMode="multiple" headerStyle={{ width: '3rem' }}></Column>
                         <Column field="nombre" header="Nombre" sortable></Column>

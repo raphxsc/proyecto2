@@ -22,7 +22,6 @@ app.use(express.json());
 
 
 app.post('/auth/signup', createUser);
-app.post('/auth/authenticate', authenticateUser);
 
 app.post('/user/add', function (req, res) {
 

@@ -28,7 +28,7 @@ import './layout/flags/flags.css';
 import './layout/layout.scss';
 import './App.scss';
 
-const App = () => {
+const App = ({history}) => {
 
     const [layoutMode, setLayoutMode] = useState('static');
     const [layoutColorMode, setLayoutColorMode] = useState('dark')
@@ -162,7 +162,7 @@ const App = () => {
                     <div className="layout-logo">
                         <img alt="Logo" src={logo} />
                     </div>
-                    <AppProfile />
+                    <AppProfile  history={history}/>
                     <AppMenu model={menu} onMenuItemClick={onMenuItemClick} />
                 </div>
             </CSSTransition>
@@ -171,7 +171,8 @@ const App = () => {
 
             <div className="layout-main">
                 <PrivateRoute path="/" exact component={Usuarios} />
-                
+                <Route path="/authentication/login" exact component={Login} />
+
 
             </div>
 

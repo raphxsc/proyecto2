@@ -1,4 +1,4 @@
-var admin = require('./firebase-service');
+var {admin} = require('./firebase-service');
 
 const getAuthToken = (req, res, next) => {
   if (
@@ -17,12 +17,15 @@ const checkIfAuthenticated = (req, res, next) => {
  getAuthToken(req, res, async () => {
     try {
       const { authToken } = req;
+      console.log("rafa")
+      console.log(authToken);
       const userInfo = await admin
         .auth()
         .verifyIdToken(authToken);
       req.authId = userInfo.uid;
       return next();
     } catch (e) {
+      console.log(e);
       return res
         .status(401)
         .send({ error: 'You are not authorized to make this request' });

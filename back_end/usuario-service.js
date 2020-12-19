@@ -8,7 +8,7 @@ const {
       lastName
     } = req.body;
 
-    
+    console.log(req.body);
 
     const user = await admin.auth().createUser({
       email,
