@@ -7,7 +7,10 @@ export class ProductService {
     }
 
     getProducts() {
-        return axios.get('assets/demo/data/products.json').then(res => res.data.data);
+        return axios.get('assets/demo/data/products.json').then(res =>{
+          console.log(res.data.data);
+          return res.data.data;
+        } );
     }
 
     getProductsWithOrdersSmall() {

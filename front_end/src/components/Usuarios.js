@@ -70,20 +70,20 @@ export const Usuarios = () => {
     const saveProduct = () => {
         setSubmitted(true);
 
-        if (product.name.trim()) {
+        if (product.nombre.trim()) {
             let _products = [...products];
             let _product = { ...product };
             if (product.id) {
                 const index = findIndexById(product.id);
 
                 _products[index] = _product;
-                toast.current.show({ severity: 'success', summary: 'Successful', detail: 'Product Updated', life: 3000 });
+                toast.current.show({ severity: 'success', summary: 'Successful', detail: 'Usuario actualizado', life: 3000 });
             }
             else {
                 _product.id = createId();
                 _product.image = 'product-placeholder.svg';
                 _products.push(_product);
-                toast.current.show({ severity: 'success', summary: 'Successful', detail: 'Product Created', life: 3000 });
+                toast.current.show({ severity: 'success', summary: 'Successful', detail: 'Usuario actualizado', life: 3000 });
             }
 
             setProducts(_products);
@@ -271,8 +271,8 @@ export const Usuarios = () => {
 
     const productDialogFooter = (
         <>
-            <Button label="Cancel" icon="pi pi-times" className="p-button-text" onClick={hideDialog} />
-            <Button label="Save" icon="pi pi-check" className="p-button-text" onClick={saveProduct} />
+            <Button label="Cancelar" icon="pi pi-times" className="p-button-text" onClick={hideDialog} />
+            <Button label="Guardar" icon="pi pi-check" className="p-button-text" onClick={saveProduct} />
         </>
     );
     const deleteProductDialogFooter = (
@@ -301,56 +301,31 @@ export const Usuarios = () => {
                         currentPageReportTemplate="Showing {first} to {last} of {totalRecords} products"
                         globalFilter={globalFilter} emptyMessage="No products found." header={header}>
                         <Column selectionMode="multiple" headerStyle={{ width: '3rem' }}></Column>
-                        <Column field="code" header="Nombre" sortable body={codeBodyTemplate}></Column>
-                        <Column field="name" header="Apellido" sortable body={nameBodyTemplate}></Column>
-                        <Column field="name" header="Correo" sortable body={nameBodyTemplate}></Column>
+                        <Column field="nombre" header="Nombre" sortable></Column>
+                        <Column field="apellido" header="Apellido" sortable></Column>
+                        <Column field="correo" header="Correo" sortable ></Column>
                         <Column body={actionBodyTemplate}></Column>
                     </DataTable>
 
-                    <Dialog visible={productDialog} style={{ width: '450px' }} header="Product Details" modal className="p-fluid" footer={productDialogFooter} onHide={hideDialog}>
-                        {product.image && <img src={`assets/demo/images/product/${product.image}`} alt={product.image} className="product-image" />}
-                        <div className="p-field">
-                            <label htmlFor="name">Name</label>
-                            <InputText id="name" value={product.name} onChange={(e) => onInputChange(e, 'name')} required autoFocus className={classNames({ 'p-invalid': submitted && !product.name })} />
-                            {submitted && !product.name && <small className="p-invalid">Name is required.</small>}
-                        </div>
-                        <div className="p-field">
-                            <label htmlFor="description">Description</label>
-                            <InputTextarea id="description" value={product.description} onChange={(e) => onInputChange(e, 'description')} required rows={3} cols={20} />
-                        </div>
+                    <Dialog visible={productDialog} style={{ width: '450px' }} header="Detalle del usuario" modal className="p-fluid" footer={productDialogFooter} onHide={hideDialog}>
 
                         <div className="p-field">
-                            <label className="p-mb-3">Category</label>
-                            <div className="p-formgrid p-grid">
-                                <div className="p-field-radiobutton p-col-6">
-                                    <RadioButton inputId="category1" name="category" value="Accessories" onChange={onCategoryChange} checked={product.category === 'Accessories'} />
-                                    <label htmlFor="category1">Accessories</label>
-                                </div>
-                                <div className="p-field-radiobutton p-col-6">
-                                    <RadioButton inputId="category2" name="category" value="Clothing" onChange={onCategoryChange} checked={product.category === 'Clothing'} />
-                                    <label htmlFor="category2">Clothing</label>
-                                </div>
-                                <div className="p-field-radiobutton p-col-6">
-                                    <RadioButton inputId="category3" name="category" value="Electronics" onChange={onCategoryChange} checked={product.category === 'Electronics'} />
-                                    <label htmlFor="category3">Electronics</label>
-                                </div>
-                                <div className="p-field-radiobutton p-col-6">
-                                    <RadioButton inputId="category4" name="category" value="Fitness" onChange={onCategoryChange} checked={product.category === 'Fitness'} />
-                                    <label htmlFor="category4">Fitness</label>
-                                </div>
-                            </div>
+                            <label htmlFor="name">Nombre</label>
+                            <InputText id="name" value={product.nombre} onChange={(e) => onInputChange(e, 'nombre')} required autoFocus className={classNames({ 'p-invalid': submitted && !product.nombre })} />
+                            {submitted && !product.nombre && <small className="p-invalid">Name is required.</small>}
+                        </div>
+                        <div className="p-field">
+                            <label htmlFor="name">Apellido</label>
+                            <InputText id="name" value={product.apellido} onChange={(e) => onInputChange(e, 'apellido')} required autoFocus className={classNames({ 'p-invalid': submitted && !product.apellido })} />
+                            {submitted && !product.apellido && <small className="p-invalid">Name is required.</small>}
+                        </div>
+                        <div className="p-field">
+                            <label htmlFor="name">Correo</label>
+                            <InputText id="name" value={product.correo} onChange={(e) => onInputChange(e, 'correo')} required autoFocus className={classNames({ 'p-invalid': submitted && !product.correo })} />
+                            {submitted && !product.correo && <small className="p-invalid">Name is required.</small>}
                         </div>
 
-                        <div className="p-formgrid p-grid">
-                            <div className="p-field p-col">
-                                <label htmlFor="price">Price</label>
-                                <InputNumber id="price" value={product.price} onValueChange={(e) => onInputNumberChange(e, 'price')} mode="currency" currency="USD" locale="en-US" />
-                            </div>
-                            <div className="p-field p-col">
-                                <label htmlFor="quantity">Quantity</label>
-                                <InputNumber id="quantity" value={product.quantity} onValueChange={(e) => onInputNumberChange(e, 'quantity')} integeronly />
-                            </div>
-                        </div>
+
                     </Dialog>
 
                     <Dialog visible={deleteProductDialog} style={{ width: '450px' }} header="Confirm" modal footer={deleteProductDialogFooter} onHide={hideDeleteProductDialog}>

@@ -1,5 +1,5 @@
 import axios from 'axios';
-import {auth} from './firebase-service';
+import {auth} from '../../service/firebase-service';
 
 
 export const createUserAccount = (data) => {
@@ -14,7 +14,7 @@ export const loginUser = (email, password) => {
 
 
 
-export  default function configureFakeBackend() { //
+export   function configureFakeBackend() { // entrando directo por fireauth
     let users = [
         { id: 1, username: 'hola', password: 'hola', firstName: 'David', lastName: 'Torres' },
 
@@ -29,7 +29,7 @@ export  default function configureFakeBackend() { //
                 // authenticate - public
                 if (url.endsWith('/users/authenticate') && opts.method === 'POST') {
                     const params = JSON.parse(opts.body);
-                    const user = auth().signInWithEmailAndPassword(email, password);
+                    const user = auth().signInWithEmailAndPassword(params.username, params.password);
                     console.log(user);
                     if (!user) return error('Username or password is incorrect');
                     return ok({
@@ -37,7 +37,7 @@ export  default function configureFakeBackend() { //
                         username: user.username,
                         firstName: user.firstName,
                         lastName: user.lastName,
-                        token: 'fake-jwt-token'
+                        token: 'fake-jwt-token' // user.token
                     });
                 }
 
