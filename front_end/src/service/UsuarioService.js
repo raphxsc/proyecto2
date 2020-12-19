@@ -23,4 +23,20 @@ export class UsuarioService {
           return res.data.result;
         } );
     }
+
+    async actualizarUsuario(data) {
+        return axios.post(url+"user/update",data,{headers:
+        authHeader()}).then(res =>{
+
+          return res.data.result;
+        } );
+    }
+
+    async eliminarUsuario(data) {
+        return axios.post(url+"user/delete",data,{headers:
+        authHeader()}).then(res =>{
+
+          return res.data.result;
+        } );
+    }
 }

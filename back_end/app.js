@@ -4,6 +4,7 @@ var multer = require('multer');
 const fs = require("fs");
 var mongo = require('mongodb');
 var MongoClient = require('mongodb').MongoClient;
+var ObjectId = require('mongodb').ObjectId;
 
 const {createUser} = require('./usuario-service');
 
@@ -36,7 +37,7 @@ app.post('/user/add', function (req, res) {
     var dbo = db.db("base_entrevista");
     dbo.collection("usuarios").insertOne(data, function(err, result) {
       if (err) throw err;
-      
+
       res.json({result:"OK"});
       db.close();
     });
@@ -86,7 +87,7 @@ app.get('/user/list',checkIfAuthenticated, function (req, res) {
 
 app.post('/user/delete',checkIfAuthenticated, function (req, res) {
 
-    let id  = req.body.id;
+    let id  = new ObjectId(req.body.id);
 
     MongoClient.connect(url, function(err, db) {
       if (err) {
@@ -97,7 +98,9 @@ app.post('/user/delete',checkIfAuthenticated, function (req, res) {
       var usuario = { _id: id};
       dbo.collection("usuarios").deleteOne(usuario, function(err, obj) {
         if (err) res.json({result:"ERROR"});
-        else res.json({result:"OK"});
+        else {
+          res.json({result:"OK"});
+        }
         db.close();
       });
     });
@@ -107,7 +110,7 @@ app.post('/user/delete',checkIfAuthenticated, function (req, res) {
 app.post('/user/update', checkIfAuthenticated,function (req, res) {
 
     let data  = req.body.usuario;
-    let id = data.id;
+    let id =  new ObjectId(data._id);
     MongoClient.connect(url, function(err, db) {
       if (err) {
         res.json({result:"ERROR"});
@@ -115,10 +118,16 @@ app.post('/user/update', checkIfAuthenticated,function (req, res) {
       }
       var dbo = db.db("base_entrevista");
       var usuario = { _id: id};
-      var updatedData = { $set: data };
+      delete data._id;
+      var updatedData = { $set: {apellido:data.apellido,nombre:data.nombre,correo:data.correo} };
       dbo.collection("usuarios").updateOne(usuario, updatedData, function(err, response) {
         if (err) throw err;
-        else res.json({result:"OK"});
+        else{
+          res.json({result:"OK"});
+          console.log(response.result.nModified );
+
+          console.log(data);
+        }
         db.close();
       });
     });

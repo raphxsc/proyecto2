@@ -1,5 +1,5 @@
 import axios from 'axios';
-import {auth,getToken} from '../../service/firebase-service';
+import {auth,getToken,getNombre} from '../../service/firebase-service';
 
 
 export const createUserAccount = (data) => {
@@ -37,11 +37,9 @@ export   function configureMiddleware() { // entrando directo por fireauth
                       //const user = users.find(x => x.username === params.username && x.password === params.password);
                       if (!user) return error('Username or password is incorrect');
                       let _token = await getToken();
+                      let _nombre = await getNombre();
                       return ok({
-                          id: user.id,
-                          username: user.username,
-                          firstName: user.firstName,
-                          lastName: user.lastName,
+                          nombre: _nombre,
                           token: _token
                       });
                   }

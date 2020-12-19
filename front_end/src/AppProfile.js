@@ -8,7 +8,7 @@ export class AppProfile extends React.Component{
       super();
       this.state = {
         expanded:false,
-
+        nombre: authenticationService.currentUserValue.nombre
       }
       this.onClick = this.onClick.bind(this);
       this.logout = this.logout.bind(this);
@@ -29,10 +29,10 @@ render(){
     return (
           <div className="layout-profile">
               <div>
-                  <img src="assets/layout/images/profile.png" alt="Profile" />
+                  <img src="assets/layout/images/avatar_4.png" alt="Profile" />
               </div>
               <button className="p-link layout-profile-link" onClick={this.onClick}>
-                  <span className="username">Administrador</span>
+                  <span className="username">{this.state.nombre}</span>
                   <i className="pi pi-fw pi-cog" />
               </button>
               <CSSTransition classNames="p-toggleable-content" timeout={{ enter: 1000, exit: 450 }} in={this.state.expanded} unmountOnExit>

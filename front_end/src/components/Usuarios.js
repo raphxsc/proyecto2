@@ -79,11 +79,12 @@ export const Usuarios = () => {
             if (product._id) {
                 const index = findIndexById(product._id);
                 _products[index] = _product;
+                userService.actualizarUsuario({usuario:_product});
                 toast.current.show({ severity: 'success', summary: 'Successful', detail: 'Usuario actualizado', life: 3000 });
             }
             else {
                 _product.id = createId();
-                userService.agregarUsuario({usuario:_product}); 
+                userService.agregarUsuario({usuario:_product});
                 _products.push(_product);
                 toast.current.show({ severity: 'success', summary: 'Successful', detail: 'Usuario agregado', life: 3000 });
 
@@ -108,10 +109,12 @@ export const Usuarios = () => {
 
     const deleteProduct = () => {
         let _products = products.filter(val => val.id !== product.id);
+        const userService = new UsuarioService();
+        userService.eliminarUsuario({id:product._id});
         setProducts(_products);
         setDeleteProductDialog(false);
         setProduct(emptyProduct);
-        toast.current.show({ severity: 'success', summary: 'Successful', detail: 'Product Deleted', life: 3000 });
+        toast.current.show({ severity: 'success', summary: 'Successful', detail: 'Usuario eliminado', life: 3000 });
     }
 
     const findIndexById = (id) => {
@@ -143,8 +146,15 @@ export const Usuarios = () => {
         setDeleteProductsDialog(true);
     }
 
-    const deleteSelectedProducts = () => {
+    const deleteSelectedProducts = async () => {
         let _products = products.filter(val => !selectedProducts.includes(val));
+        const userService = new UsuarioService();
+
+        await selectedProducts.forEach((item, i) => {
+            userService.eliminarUsuario({id:item._id});
+        });
+
+
         setProducts(_products);
         setDeleteProductsDialog(false);
         setSelectedProducts(null);
@@ -332,17 +342,17 @@ export const Usuarios = () => {
 
                     </Dialog>
 
-                    <Dialog visible={deleteProductDialog} style={{ width: '450px' }} header="Confirm" modal footer={deleteProductDialogFooter} onHide={hideDeleteProductDialog}>
+                    <Dialog visible={deleteProductDialog} style={{ width: '450px' }} header="Confirmar" modal footer={deleteProductDialogFooter} onHide={hideDeleteProductDialog}>
                         <div className="confirmation-content">
                             <i className="pi pi-exclamation-triangle p-mr-3" style={{ fontSize: '2rem' }} />
-                            {product && <span>Are you sure you want to delete <b>{product.name}</b>?</span>}
+                            {product && <span>¿Confirma eliminar el usuario: <b>{product.nombre}</b>?</span>}
                         </div>
                     </Dialog>
 
-                    <Dialog visible={deleteProductsDialog} style={{ width: '450px' }} header="Confirm" modal footer={deleteProductsDialogFooter} onHide={hideDeleteProductsDialog}>
+                    <Dialog visible={deleteProductsDialog} style={{ width: '450px' }} header="Confirmar" modal footer={deleteProductsDialogFooter} onHide={hideDeleteProductsDialog}>
                         <div className="confirmation-content">
                             <i className="pi pi-exclamation-triangle p-mr-3" style={{ fontSize: '2rem' }} />
-                            {product && <span>Are you sure you want to delete the selected products?</span>}
+                            {product && <span>¿Confirma eliminar los usuario seleccionados?</span>}
                         </div>
                     </Dialog>
                 </div>

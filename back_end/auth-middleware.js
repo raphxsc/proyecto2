@@ -17,8 +17,6 @@ const checkIfAuthenticated = (req, res, next) => {
  getAuthToken(req, res, async () => {
     try {
       const { authToken } = req;
-      console.log("rafa")
-      console.log(authToken);
       const userInfo = await admin
         .auth()
         .verifyIdToken(authToken);

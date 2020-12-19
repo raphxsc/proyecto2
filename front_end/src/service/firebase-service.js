@@ -23,6 +23,10 @@ firebase.auth().onAuthStateChanged(user => {
 
 export const auth = firebase.auth
 export const getToken = async ()=>{
-   return await firebase.auth().currentUser.getIdToken()
+   return await firebase.auth().currentUser.getIdToken();
+};
+
+export const getNombre = async ()=>{
+   return await firebase.auth().currentUser.displayName;
 };
 export default firebase;
