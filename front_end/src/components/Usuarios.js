@@ -75,17 +75,19 @@ export const Usuarios = () => {
         if (product.nombre.trim()) {
             let _products = [...products];
             let _product = { ...product };
-            if (product.id) {
-                const index = findIndexById(product.id);
-
+            const userService = new UsuarioService();
+            if (product._id) {
+                const index = findIndexById(product._id);
                 _products[index] = _product;
                 toast.current.show({ severity: 'success', summary: 'Successful', detail: 'Usuario actualizado', life: 3000 });
             }
             else {
                 _product.id = createId();
-                _product.image = 'product-placeholder.svg';
+                userService.agregarUsuario({usuario:_product}); 
                 _products.push(_product);
-                toast.current.show({ severity: 'success', summary: 'Successful', detail: 'Usuario actualizado', life: 3000 });
+                toast.current.show({ severity: 'success', summary: 'Successful', detail: 'Usuario agregado', life: 3000 });
+
+
             }
 
             setProducts(_products);
@@ -115,7 +117,7 @@ export const Usuarios = () => {
     const findIndexById = (id) => {
         let index = -1;
         for (let i = 0; i < products.length; i++) {
-            if (products[i].id === id) {
+            if (products[i]._id === id) {
                 index = i;
                 break;
             }

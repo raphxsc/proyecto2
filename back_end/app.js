@@ -34,9 +34,9 @@ app.post('/user/add', function (req, res) {
     }
 
     var dbo = db.db("base_entrevista");
-    dbo.collection("usuarios").insertOne(data, function(err, res) {
+    dbo.collection("usuarios").insertOne(data, function(err, result) {
       if (err) throw err;
-      console.log("1 document inserted");
+      
       res.json({result:"OK"});
       db.close();
     });
@@ -55,9 +55,9 @@ app.post('/user/add', function (req, res) {
     }
 
     var dbo = db.db("base_entrevista");
-    dbo.collection("usuarios").insertOne(data, function(err, res) {
+    dbo.collection("usuarios").insertOne(data, function(err, response) {
       if (err) throw err;
-      console.log("1 document inserted");
+
       res.json({result:"OK"});
       db.close();
     });
@@ -116,7 +116,7 @@ app.post('/user/update', checkIfAuthenticated,function (req, res) {
       var dbo = db.db("base_entrevista");
       var usuario = { _id: id};
       var updatedData = { $set: data };
-      dbo.collection("usuarios").updateOne(usuario, updatedData, function(err, res) {
+      dbo.collection("usuarios").updateOne(usuario, updatedData, function(err, response) {
         if (err) throw err;
         else res.json({result:"OK"});
         db.close();

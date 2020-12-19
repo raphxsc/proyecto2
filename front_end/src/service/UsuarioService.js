@@ -15,4 +15,12 @@ export class UsuarioService {
           return res.data.data;
         } );
     }
+
+    async agregarUsuario(data) {
+        return axios.post(url+"user/add",data,{headers:
+        authHeader()}).then(res =>{
+
+          return res.data.result;
+        } );
+    }
 }
