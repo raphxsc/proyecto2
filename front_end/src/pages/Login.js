@@ -13,7 +13,7 @@ import {
 } from 'reactstrap';
 import { Formik, Field, Form, ErrorMessage } from 'formik';
 import * as Yup from 'yup';
-import { authenticationService } from '../../jwt/_services';
+import { authenticationService } from '../jwt/_services';
 const sidebarBackground = {
 	backgroundColor: "#e1e2dd", // eef5f9
 	backgroundRepeat: "no-repeat",

@@ -5,7 +5,8 @@ const fs = require("fs");
 var mongo = require('mongodb');
 var MongoClient = require('mongodb').MongoClient;
 
-const {createUser} = require('./crear-usuario');
+const {createUser} = require('./usuario-service');
+
 const {checkIfAuthenticated} =require("./auth-middleware");
 
 var url = "mongodb://localhost:27017/";
@@ -21,6 +22,7 @@ app.use(express.json());
 
 
 app.post('/auth/signup', createUser);
+app.post('/auth/authenticate', authenticateUser);
 
 app.post('/user/add', function (req, res) {
 
@@ -43,7 +45,28 @@ app.post('/user/add', function (req, res) {
 
 });
 
-app.get('/user/list', function (req, res) {
+app.post('/user/add', function (req, res) {
+
+  var data =req.body.usuario ;
+
+  MongoClient.connect(url,checkIfAuthenticated, function(err, db) {
+    if (err) {
+      res.json({result:"ERROR"});
+      return;
+    }
+
+    var dbo = db.db("base_entrevista");
+    dbo.collection("usuarios").insertOne(data, function(err, res) {
+      if (err) throw err;
+      console.log("1 document inserted");
+      res.json({result:"OK"});
+      db.close();
+    });
+  });
+
+});
+
+app.get('/user/list',checkIfAuthenticated, function (req, res) {
   MongoClient.connect(url, function(err, db) {
     if (err) {
       res.json({result:"ERROR"});

@@ -33,7 +33,7 @@ class Dashboard  extends React.Component  {
 
   agregar(){
     this.props.history.push({
-     pathname:'/app/mantenimiento/predictivo/inventario/agregar'
+     pathname:'/usuario/agregar'
    });
   }
   render() {
@@ -50,7 +50,7 @@ class Dashboard  extends React.Component  {
       <Card>
 				<CardTitle  className="bg-light border-bottom p-3 mb-0">Usuarios</CardTitle>
 				<CardBody>
-					<Button label='Agregar actividad' icon="fa fa-plus" className="pull-right" onClick={this.agregar.bind(this)}/><br/><br/>
+					<Button label='Agregar usuario' icon="fa fa-plus" className="pull-right" onClick={this.agregar.bind(this)}/><br/><br/>
 					<ListadoUsuarios history={this.props.history}/>
 				</CardBody>
 			</Card>
