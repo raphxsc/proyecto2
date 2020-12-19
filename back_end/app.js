@@ -7,7 +7,7 @@ var MongoClient = require('mongodb').MongoClient;
 var ObjectId = require('mongodb').ObjectId;
 const {createUser} = require('./usuario-service');
 const {checkIfAuthenticated} =require("./auth-middleware");
-const {agregarUsuario,eliminarUsuario} = require('./cloud-firestore-mirror');
+const {agregarUsuario,eliminarUsuario,actualizarUsuario} = require('./cloud-firestore-mirror');
 
 var url = "mongodb://localhost:27017/";
 app.use((req, res, next) => {
@@ -76,7 +76,7 @@ app.get('/user/list',checkIfAuthenticated, function (req, res) {
     dbo.collection("usuarios").find({}).toArray(function(err, result) {
      if (err)  res.json({result:"ERROR"});
      else{
-       console.log(result);
+
        res.json({result:"OK",data:result});
      }
      db.close();
@@ -120,14 +120,13 @@ app.post('/user/update', checkIfAuthenticated,function (req, res) {
       var dbo = db.db("base_entrevista");
       var usuario = { _id: id};
       delete data._id;
+      actualizarUsuario(data);
       var updatedData = { $set: {apellido:data.apellido,nombre:data.nombre,correo:data.correo} };
       dbo.collection("usuarios").updateOne(usuario, updatedData, function(err, response) {
         if (err) throw err;
         else{
           res.json({result:"OK"});
-          console.log(response.result.nModified );
 
-          console.log(data);
         }
         db.close();
       });

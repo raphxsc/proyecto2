@@ -110,7 +110,7 @@ export const Usuarios = () => {
     const deleteProduct = () => {
         let _products = products.filter(val => val.id !== product.id);
         const userService = new UsuarioService();
-        userService.eliminarUsuario({id:product._id});
+        userService.eliminarUsuario({id:product._id,doc:product.id});
         setProducts(_products);
         setDeleteProductDialog(false);
         setProduct(emptyProduct);
